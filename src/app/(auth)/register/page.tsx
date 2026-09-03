@@ -42,12 +42,12 @@ export default function RegisterPage() {
     // reads raw_user_meta_data on auth.users insert. We fall back to an
     // explicit upsert here in case the trigger hasn't been applied yet.
     if (data.user) {
-      await supabase.from('profiles').upsert({
-        id: data.user.id,
-        full_name: fullName,
-        role,
-      });
-    }
+        await supabase.from('profiles').upsert({
+          id: data.user.id,
+          full_name: fullName,
+          role,
+        } as any);
+      }
 
     router.push('/dashboard');
     router.refresh();
