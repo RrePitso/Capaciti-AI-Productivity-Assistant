@@ -4,21 +4,20 @@ import { z } from 'zod';
 import { createClient } from '@/lib/supabase/server';
 import { getJsonCompletion } from '@/lib/ai/openai';
 import { TASK_SUGGESTION_SYSTEM_PROMPT, buildTaskSuggestionUserPrompt } from '@/lib/ai/prompts';
-import type { TaskPriority } from '@/types/database';
 
 const requestSchema = z.object({
   title: z.string().min(1),
   description: z.string().optional(),
 });
 
-interface SuggestionCompletion {
-  priority: TaskPriority;
-  effort: string;
+interface TaskSuggestion {
+  priority: 'P1' | 'P2' | 'P3' | 'P4';
+  effort: string | null;
   dependency: string | null;
 }
 
 export async function POST(request: Request) {
-  const supabase = createClient();
+  const supabase = await createClient();
 
   const {
     data: { user },
@@ -33,13 +32,17 @@ export async function POST(request: Request) {
     return NextResponse.json({ error: parsed.error.flatten() }, { status: 400 });
   }
 
+  const input = parsed.data;
+
+  let suggestion: TaskSuggestion;
   try {
-    const completion = await getJsonCompletion<SuggestionCompletion>({
+    suggestion = await getJsonCompletion<TaskSuggestion>({
       system: TASK_SUGGESTION_SYSTEM_PROMPT,
-      user: buildTaskSuggestionUserPrompt(parsed.data),
+      user: buildTaskSuggestionUserPrompt(input),
     });
-    return NextResponse.json({ data: completion });
   } catch {
-    return NextResponse.json({ error: 'AI suggestion failed' }, { status: 502 });
+    return NextResponse.json({ error: 'AI suggestion failed. Please try again.' }, { status: 502 });
   }
+
+  return NextResponse.json({ data: suggestion });
 }

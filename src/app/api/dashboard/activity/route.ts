@@ -4,7 +4,7 @@ import { createClient } from '@/lib/supabase/server';
 import type { ActivityItem } from '@/components/dashboard/ActivityFeed';
 
 export async function GET() {
-  const supabase = createClient();
+  const supabase = await createClient();
 
   const {
     data: { user },
