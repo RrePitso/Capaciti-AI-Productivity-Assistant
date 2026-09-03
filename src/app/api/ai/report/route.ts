@@ -47,7 +47,8 @@ export async function POST(request: Request) {
         dataSummary: input.dataSummary,
       }),
     });
-  } catch {
+  } catch (err) {
+    console.error('[AI Report] Generation failed:', err);
     return NextResponse.json({ error: 'AI report generation failed. Please try again.' }, { status: 502 });
   }
 

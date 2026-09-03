@@ -68,7 +68,8 @@ export async function POST(request: Request) {
         transcript: input.transcript,
       }),
     });
-  } catch {
+  } catch (err) {
+    console.error('[AI Summary] Generation failed:', err);
     return NextResponse.json({ error: 'AI summarisation failed. Please try again.' }, { status: 502 });
   }
 

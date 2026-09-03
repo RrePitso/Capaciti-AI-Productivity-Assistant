@@ -44,6 +44,7 @@ export async function POST(request: Request) {
       user: buildEmailUserPrompt(input),
     });
   } catch (err) {
+    console.error('[AI Email] Generation failed:', err);
     return NextResponse.json({ error: 'AI generation failed. Please try again.' }, { status: 502 });
   }
 

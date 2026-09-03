@@ -40,7 +40,8 @@ export async function POST(request: Request) {
       system: TASK_SUGGESTION_SYSTEM_PROMPT,
       user: buildTaskSuggestionUserPrompt(input),
     });
-  } catch {
+  } catch (err) {
+    console.error('[AI Task Suggestion] Generation failed:', err);
     return NextResponse.json({ error: 'AI suggestion failed. Please try again.' }, { status: 502 });
   }
 
