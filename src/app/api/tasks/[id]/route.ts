@@ -11,8 +11,9 @@ const updateTaskSchema = z.object({
   due_date: z.string().nullable().optional(),
 });
 
-export async function PATCH(request: Request, { params }: { params: { id: string } }) {
-  const supabase = createClient();
+export async function PATCH(request: Request, { params }: { params: Promise<{ id: string }> }) {
+  const supabase = await createClient();
+  const resolvedParams = await params;
 
   const {
     data: { user },
@@ -35,7 +36,7 @@ export async function PATCH(request: Request, { params }: { params: { id: string
   const { data, error } = await supabase
     .from('tasks')
     .update(updates)
-    .eq('id', params.id)
+    .eq('id', resolvedParams.id)
     .eq('assigned_user_id', user.id)
     .select()
     .single();
@@ -47,8 +48,9 @@ export async function PATCH(request: Request, { params }: { params: { id: string
   return NextResponse.json({ data });
 }
 
-export async function DELETE(_request: Request, { params }: { params: { id: string } }) {
-  const supabase = createClient();
+export async function DELETE(_request: Request, { params }: { params: Promise<{ id: string }> }) {
+  const supabase = await createClient();
+  const resolvedParams = await params;
 
   const {
     data: { user },
@@ -58,11 +60,15 @@ export async function DELETE(_request: Request, { params }: { params: { id: stri
     return NextResponse.json({ error: 'Not authenticated' }, { status: 401 });
   }
 
-  const { error } = await supabase.from('tasks').delete().eq('id', params.id).eq('assigned_user_id', user.id);
+  const { error } = await supabase
+    .from('tasks')
+    .delete()
+    .eq('id', resolvedParams.id)
+    .eq('assigned_user_id', user.id);
 
   if (error) {
     return NextResponse.json({ error: error.message }, { status: 500 });
   }
 
-  return NextResponse.json({ data: { id: params.id } });
+  return NextResponse.json({ data: { id: resolvedParams.id } });
 }
