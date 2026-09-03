@@ -1,0 +1,20 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --capaciti-blue: #0b5fff;
+}
+
+html,
+body {
+  height: 100%;
+}
+
+body {
+  @apply bg-capaciti-grey-light text-capaciti-navy antialiased;
+}
+
+* {
+  @apply border-border;
+}
