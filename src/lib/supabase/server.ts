@@ -1,6 +1,7 @@
 // src/lib/supabase/server.ts
 // Use inside Server Components, Route Handlers, and Server Actions.
 import { createServerClient, type CookieOptions } from '@supabase/ssr';
+import { createClient as createSupabaseClient } from '@supabase/supabase-js';
 import { cookies } from 'next/headers';
 import type { Database } from '@/types/database';
 
@@ -38,7 +39,6 @@ export async function createClient() {
 // Service-role client for privileged server-only operations (e.g. AI routes
 // that must bypass RLS to write on behalf of a validated user).
 export function createServiceRoleClient() {
-  const { createClient: createSupabaseClient } = require('@supabase/supabase-js');
   return createSupabaseClient<Database>(
     process.env.NEXT_PUBLIC_SUPABASE_URL!,
     process.env.SUPABASE_SERVICE_ROLE_KEY!,

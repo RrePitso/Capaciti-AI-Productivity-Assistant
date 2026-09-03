@@ -8,7 +8,7 @@ import { GoogleGenerativeAI } from '@google/generative-ai';
 const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY!);
 
 // Default model per Google AI Studio's free tier.
-const DEFAULT_MODEL = 'gemini-1.5-flash';
+const DEFAULT_MODEL = 'gemini-3.6-flash';
 
 interface JsonCompletionOptions {
   system: string;
