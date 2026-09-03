@@ -29,7 +29,7 @@ function countByWeek(dates: (string | null)[], buckets: ReturnType<typeof buildW
 }
 
 export async function GET() {
-  const supabase = createClient();
+  const supabase = await createClient();
 
   const {
     data: { user },

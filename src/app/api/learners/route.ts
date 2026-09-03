@@ -6,7 +6,7 @@ import type { Profile, Task, EmailRecord } from '@/types';
 const ALLOWED_ROLES = ['facilitator', 'manager', 'admin'] as const;
 
 export async function GET() {
-  const supabase = createClient();
+  const supabase = await createClient();
 
   const {
     data: { user },
