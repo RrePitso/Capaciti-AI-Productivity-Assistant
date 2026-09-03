@@ -22,3 +22,23 @@ export interface LearnerActivitySummary {
   taskSummary: { total: number; completed: number; pending: number };
   emailsSent: number;
 }
+
+export interface WeeklyCount {
+  label: string;
+  count: number;
+}
+
+export interface LearnerProgressEntry {
+  id: string;
+  full_name: string;
+  department: string | null;
+  tasksCompleted: number;
+  tasksTotal: number;
+}
+
+export interface AnalyticsData {
+  taskCompletion: { total: number; completed: number; rate: number };
+  meetingsPerWeek: WeeklyCount[];
+  emailsPerWeek: WeeklyCount[];
+  learnerProgress: LearnerProgressEntry[];
+}
