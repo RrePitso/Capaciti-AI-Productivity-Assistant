@@ -102,26 +102,58 @@ export interface ChatMessage {
 export interface Database {
   public: {
     Tables: {
-      profiles: { Row: Profile; Insert: Partial<Profile>; Update: Partial<Profile> };
-      emails: { Row: EmailRecord; Insert: Partial<EmailRecord>; Update: Partial<EmailRecord> };
-      meetings: { Row: Meeting; Insert: Partial<Meeting>; Update: Partial<Meeting> };
+      profiles: {
+        Row: Profile;
+        Insert: Partial<Profile>;
+        Update: Partial<Profile>;
+        Relationships: [];
+      };
+      emails: {
+        Row: EmailRecord;
+        Insert: Partial<EmailRecord>;
+        Update: Partial<EmailRecord>;
+        Relationships: [];
+      };
+      meetings: {
+        Row: Meeting;
+        Insert: Partial<Meeting>;
+        Update: Partial<Meeting>;
+        Relationships: [];
+      };
       meeting_summaries: {
         Row: MeetingSummary;
         Insert: Partial<MeetingSummary>;
         Update: Partial<MeetingSummary>;
+        Relationships: [];
       };
-      tasks: { Row: Task; Insert: Partial<Task>; Update: Partial<Task> };
-      reports: { Row: Report; Insert: Partial<Report>; Update: Partial<Report> };
+      tasks: {
+        Row: Task;
+        Insert: Partial<Task>;
+        Update: Partial<Task>;
+        Relationships: [];
+      };
+      reports: {
+        Row: Report;
+        Insert: Partial<Report>;
+        Update: Partial<Report>;
+        Relationships: [];
+      };
       chat_sessions: {
         Row: ChatSession;
         Insert: Partial<ChatSession>;
         Update: Partial<ChatSession>;
+        Relationships: [];
       };
       chat_messages: {
         Row: ChatMessage;
         Insert: Partial<ChatMessage>;
         Update: Partial<ChatMessage>;
+        Relationships: [];
       };
     };
+    Views: Record<string, never>;
+    Functions: Record<string, never>;
+    Enums: Record<string, never>;
+    CompositeTypes: Record<string, never>;
   };
 }
