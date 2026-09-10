@@ -48,7 +48,7 @@ export async function POST(request: Request) {
     return NextResponse.json({ error: 'AI generation failed. Please try again.' }, { status: 502 });
   }
 
-  const { data: saved, error: dbError } = await supabase
+  const { data: saved, error: dbError } = await (supabase as any)
     .from('emails')
     .insert({
       user_id: user.id,
